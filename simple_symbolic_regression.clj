@@ -125,9 +125,6 @@
       (cons f (repeatedly (get function-table f)
                           #(random-code (dec depth)))))))
 ;; @@
-;; =>
-;;; {"type":"html","content":"<span class='clj-var'>#&#x27;worksheets.simple-symbolic-regression/random-code</span>","value":"#'worksheets.simple-symbolic-regression/random-code"}
-;; <=
 
 ;; @@
 (defn codesize [c]
@@ -159,9 +156,6 @@
                (for [n (iterate inc 0)] (= n position-to-change))
                i))))
 ;; @@
-;; =>
-;;; {"type":"html","content":"<span class='clj-var'>#&#x27;worksheets.simple-symbolic-regression/replace-random-subtree</span>","value":"#'worksheets.simple-symbolic-regression/replace-random-subtree"}
-;; <=
 
 ;; @@
 (defn select
@@ -206,9 +200,6 @@
   [parentss]
   (replace-random-subtree (nth parentss 0) (random-subtree (nth parentss 1))))
 ;; @@
-;; =>
-;;; {"type":"html","content":"<span class='clj-var'>#&#x27;worksheets.simple-symbolic-regression/crossover2</span>","value":"#'worksheets.simple-symbolic-regression/crossover2"}
-;; <=
 
 ;; @@
 (defn round2
@@ -262,9 +253,6 @@
       (cons (nth i 0) (for [x (range 1 (+ 1 (get function-table (nth i 0))))]
               (simplify2 (nth i x)))))))
 ;; @@
-;; =>
-;;; {"type":"html","content":"<span class='clj-var'>#&#x27;worksheets.simple-symbolic-regression/simplify2</span>","value":"#'worksheets.simple-symbolic-regression/simplify2"}
-;; <=
 
 ;; @@
 (defn error 
@@ -321,9 +309,6 @@
                         (map #(vector (tree-compare % best) %) (drop 1 population))))
              best)))
 ;; @@
-;; =>
-;;; {"type":"html","content":"<span class='clj-var'>#&#x27;worksheets.simple-symbolic-regression/sort-by-novelty</span>","value":"#'worksheets.simple-symbolic-regression/sort-by-novelty"}
-;; <=
 
 ;; @@
 ;(def pops (repeatedly 10 #(random-code 4)))
@@ -527,9 +512,6 @@
                             #(mutate2 (crossover2 (get-parents population))
                                       (rand-int 3)))))))))))
 ;; @@
-;; =>
-;;; {"type":"html","content":"<span class='clj-var'>#&#x27;worksheets.simple-symbolic-regression/evolve4</span>","value":"#'worksheets.simple-symbolic-regression/evolve4"}
-;; <=
 
 ;; @@
 ;beware going above 40 gens
