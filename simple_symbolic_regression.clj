@@ -529,16 +529,15 @@
 
 ;; **
 ;;; ### Instructions to run:
-;;; The evolve function will try to find the function for the data-set labled target-data.
 ;;; Run one of the one of the commands below, e.g. (evolve number_of_generations).
 ;;; 
-;;; Original teacher function with minor mods:
-;;; (evolve #)
-;;; Final with attempted novelty search implementation:
+;;; Original teacher function with minor mods:  
+;;; (evolve #) 
+;;; Final with attempted novelty search implementation:  
 ;;; (evolve2 #)
-;;; Midterm with modified mutation and crossover functions:
+;;; Midterm with modified mutation and crossover functions:  
 ;;; (evolve3 #)
-;;; Midterm and Final combined:
+;;; Midterm and Final combined:  
 ;;; (evolve4 #)
 ;;; 
 ;;; ### Output Example:
