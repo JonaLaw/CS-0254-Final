@@ -2,10 +2,8 @@
 
 ;; **
 ;;; # Unnecessarily Complex Symbolic Regression
-;;; 
-;;; This code defines and runs a genetic programming system on the problem
-;;; of finding a function that fits a particular set of [x y] pairs.
 ;; **
+
 
 ;; @@
 (ns worksheets.simple-symbolic-regression
@@ -13,11 +11,16 @@
             [clojure.zip :as zip]
             ))
 ;; @@
-;; =>
-;;; {"type":"html","content":"<span class='clj-nil'>nil</span>","value":"nil"}
-;; <=
+
+;; **
+;;; This code defines and runs a genetic programming system on the problem
+;;; of finding a function that fits a particular set of [x y] pairs.
+;;; The evolve function will try to find the function for the data-set labled target-data.
+;; **
 
 ;; @@
+;equation: 2x^2
+;solution: (* (+ x x) x)
 (def target-data2
   [[1 2]
    [2 8]
@@ -58,8 +61,9 @@
 [3.4 -9.81]
 [0.6 -9.53]
 [1.2 -7.8]])
+;; @@
 
-
+;; @@
 (def hyperparameters {:population-size 400 ; How many inidivuals are in the population.
                       :error-threshold 0.1 ; When an individual's error reaches below this, it is considered a solution.
                       
@@ -359,7 +363,9 @@
                                       (select population 7)))
               (repeatedly (* 1/4 (:population-size hyperparameters)) 
                           #(select population 7)))))))))
+;; @@
 
+;; @@
 (defn evolve2
   "original with novelty"
   [max-generations]
@@ -415,7 +421,9 @@
                                         (select population 7)))
                 (repeatedly (* 1/4 (:population-size hyperparameters))
                             #(select population 7))))))))))
+;; @@
 
+;; @@
 (defn evolve3
   "midterm version"
   [max-generations]
@@ -455,7 +463,9 @@
                              (:population-size hyperparameters))
                           #(mutate2 (crossover2 (get-parents population))
                                    (rand-int 3))))))))))
+;; @@
 
+;; @@
 (defn evolve4
   "midterm with novelty"
   [max-generations]
@@ -513,10 +523,53 @@
                                       (rand-int 3)))))))))))
 ;; @@
 
+;; **
+;;; ### Instructions to run:
+;;; The evolve function will try to find the function for the data-set labled target-data.
+;;; Run one of the one of the commands below, e.g. (evolve number_of_generations).
+;;; 
+;;; Original teacher function with minor mods:
+;;; (evolve #)
+;;; Final with attempted novelty search implementation:
+;;; (evolve2 #)
+;;; Midterm with modified mutation and crossover functions:
+;;; (evolve3 #)
+;;; Midterm and Final combined:
+;;; (evolve4 #)
+;;; 
+;;; ### Output Example:
+;; **
+
 ;; @@
-;beware going above 40 gens
-;(evolve 15)
-;(evolve2 15)
-;(evolve3 15)
-;(evolve4 20)
+(evolve4 3)
 ;; @@
+;; ->
+;;; Starting evolution...
+;;; ======================
+;;; Generation: 0
+;;; Best error: 171.19868803024292
+;;; Best program: (* x (+ x (sin x)))
+;;;      Median error: 322.0
+;;;      Average program size: 2.9825
+;;; ======================
+;;; Generation: 1
+;;; Best error: 171.19868803024292
+;;; Best program: (* x (+ x (sin x)))
+;;;      Median error: 315.33062732219696
+;;;      Average program size: 3.1125
+;;; ======================
+;;; Generation: 2
+;;; Best error: 145.17030930519104
+;;; Best program: (+ (* (+ (cos 0.42) x) x) (sin 3.88))
+;;;      Median error: 300.400000333786
+;;;      Average program size: 3.38
+;;; ======================
+;;; Generation: 3
+;;; Best error: 40.0
+;;; Best program: (* x (- x -4.25))
+;;;      Median error: 300.0
+;;;      Average program size: 5.3
+;;; Success: (* x (- x -4.25))
+;;; Simple : (* x (- x -4.25))
+;;; 
+;; <-
