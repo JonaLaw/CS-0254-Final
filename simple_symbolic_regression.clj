@@ -5,7 +5,6 @@
 ;;;
 ;; **
 
-
 ;; @@
 (ns worksheets.simple-symbolic-regression
   (:require [gorilla-plot.core :as plot]
@@ -19,6 +18,7 @@
 ;; **
 ;;; This code defines and runs a genetic programming system on the problem
 ;;; of finding a function that fits a particular set of [x y] pairs.
+;;;
 ;;; The evolve function will try to find the function for the data-set labled target-data.
 ;; **
 
@@ -526,4 +526,3 @@
                             #(mutate2 (crossover2 (get-parents population))
                                       (rand-int 3)))))))))))
 ;; @@
-
