@@ -317,3 +317,212 @@
                         (map #(vector (tree-compare % best) %) (drop 1 population))))
              best)))
 ;; @@
+
+;; @@
+;(def pops (repeatedly 10 #(random-code 4)))
+;(println pops)
+;(println (map #(simplify %) pops))
+;(println (sort-by-novelty (first pops) pops))
+;; @@
+
+;; @@
+;(def bests (atom []))
+
+(defn evolve
+  "original with minor additions"
+  [max-generations]
+  (println "Starting evolution...")
+  (loop [generation 0
+         population (sort-by-error (repeatedly (:population-size hyperparameters)
+                                               #(random-code 4)))]
+    (let [best (first population)
+          best-error (error best)]
+      (println "======================")
+      (println "Generation:" generation)
+      (println "Best error:" best-error)
+      (println "Best program:" best)
+      (println "     Median error:" (error (nth population 
+                                                (int (/ (:population-size hyperparameters)
+                                                        2)))))
+      (println "     Average program size:" 
+               (float (/ (reduce + (map count (map flatten population)))
+                         (count population))))
+      ;(swap! bests conj best)
+      (if (or (< best-error 
+                 (:error-threshold hyperparameters))
+              (= generation max-generations))
+        (do (println "Success:" best)
+            (println "Simple :" (simplify best))
+          (plot/compose
+            (plot/list-plot target-data)
+            (plot/plot (eval (list 'fn '[x] best)) [-50 50])))
+        (recur 
+          (inc generation)
+          (sort-by-error      
+            (concat
+              (repeatedly (* 1/2 (:population-size hyperparameters))
+                          #(mutate (select population 7)))
+              (repeatedly (* 1/4 (:population-size hyperparameters))
+                          #(crossover (select population 7)
+                                      (select population 7)))
+              (repeatedly (* 1/4 (:population-size hyperparameters)) 
+                          #(select population 7)))))))))
+;; @@
+
+;; @@
+(defn evolve2
+  "original with novelty"
+  [max-generations]
+  (println "Starting evolution...")
+  (loop [generation 0
+         errors '(nil nil)
+         population (sort-by-error (repeatedly (:population-size hyperparameters)
+                                               #(random-code 4)))]
+    (let [best (first population)
+          best-error (error best)]
+      (println "======================")
+      (println "Generation:" generation)
+      (println "Best error:" best-error)
+      (println "Best program:" best)
+      (println "     Median error:" (error (nth population 
+                                                (int (/ (:population-size hyperparameters)
+                                                        2)))))
+      (println "     Average program size:" 
+               (float (/ (reduce + (map count (map flatten population)))
+                         (count population))))
+      ;(swap! bests conj best)
+      (if (or (< best-error 
+                 (:error-threshold hyperparameters))
+              (= generation max-generations))
+        (do (println "Success:" best)
+            (println "Simple :" (simplify best))
+          (plot/compose
+            (plot/list-plot target-data)
+            (plot/plot (eval (list 'fn '[x] best)) [-50 50])))
+        (if (and (< 4 generation);(<= (count errors) generations)
+                 (apply = (conj errors best-error)))
+          (recur
+            (inc generation)
+            (conj (drop-last errors) 0)
+            (sort-by-novelty (simplify best)
+              (concat
+                (repeatedly (* 1/2 (:population-size hyperparameters))
+                            #(simplify (mutate (select population 7))))
+                (repeatedly (* 1/4 (:population-size hyperparameters))
+                            #(simplify (crossover (select population 7)
+                                                  (select population 7))))
+                (repeatedly (* 1/4 (:population-size hyperparameters))
+                            #(simplify (select population 7))))))
+          (recur
+            (inc generation)
+            (conj (drop-last errors) best-error)
+            (sort-by-error
+              (concat
+                (repeatedly (* 1/2 (:population-size hyperparameters))
+                            #(mutate (select population 7)))
+                (repeatedly (* 1/4 (:population-size hyperparameters))
+                            #(crossover (select population 7)
+                                        (select population 7)))
+                (repeatedly (* 1/4 (:population-size hyperparameters))
+                            #(select population 7))))))))))
+;; @@
+
+;; @@
+(defn evolve3
+  "midterm version"
+  [max-generations]
+  (println "Starting evolution...")
+  (loop [generation 0
+         population (sort-by-error (repeatedly (:population-size hyperparameters)
+                                               #(random-code 4)))]
+    (let [best (first population)
+          best-error (error best)]
+      (println "======================")
+      (println "Generation:" generation)
+      (println "Best error:" best-error)
+      (println "Best program:" best)
+      (println "     Median error:" (error (nth population 
+                                                (int (/ (:population-size hyperparameters)
+                                                        2)))))
+      (println "     Average program size:" 
+               (float (/ (reduce + (map count (map flatten population)))
+                         (count population))))
+      ;(swap! bests conj best)
+      (if (or (< best-error 
+                 (:error-threshold hyperparameters))
+              (= generation max-generations))
+        (do (println "Success:" best)
+            (println "Simple :" (simplify best))
+          (plot/compose
+            (plot/list-plot target-data)
+            (plot/plot (eval (list 'fn '[x] best)) [-50 50])))
+        (recur 
+          (inc generation)
+          (sort-by-error      
+            (concat
+              (repeatedly (* (:percent-cloned hyperparameters)
+                             (:population-size hyperparameters)) 
+                          #(select population 7))
+              (repeatedly (* (:percent-crossover hyperparameters)
+                             (:population-size hyperparameters))
+                          #(mutate2 (crossover2 (get-parents population))
+                                   (rand-int 3))))))))))
+;; @@
+
+;; @@
+(defn evolve4
+  "midterm with novelty"
+  [max-generations]
+  (println "Starting evolution...")
+  (loop [generation 0
+         errors '(nil nil)
+         population (sort-by-error (repeatedly (:population-size hyperparameters)
+                                               #(random-code 4)))]
+    (let [best (first population)
+          best-error (error best)]
+      (println "======================")
+      (println "Generation:" generation)
+      (println "Best error:" best-error)
+      (println "Best program:" best)
+      (println "     Median error:" (error (nth population 
+                                                (int (/ (:population-size hyperparameters)
+                                                        2)))))
+      (println "     Average program size:" 
+               (float (/ (reduce + (map count (map flatten population)))
+                         (count population))))
+      ;(swap! bests conj best)
+      (if (or (< best-error 
+                 (:error-threshold hyperparameters))
+              (= generation max-generations))
+        (do (println "Success:" best)
+            (println "Simple :" (simplify best))
+          (plot/compose
+            (plot/list-plot target-data)
+            (plot/plot (eval (list 'fn '[x] best)) [-50 50])))
+        (if (and (< 4 generation);(< (count errors) generations)
+                 (apply = (conj errors best-error)))
+          (recur
+            (inc generation)
+            (conj (drop-last errors) 0)
+            (sort-by-novelty (simplify best)
+              (concat
+                (repeatedly (* (:percent-cloned hyperparameters)
+                               (:population-size hyperparameters))
+                            #(simplify (select population 7)))
+                (repeatedly (* (:percent-crossover hyperparameters)
+                               (:population-size hyperparameters))
+                            #(simplify (mutate2 (crossover2 (get-parents population))
+                                                (rand-int 2)))))))
+          (recur
+            (inc generation)
+            (conj (drop-last errors) best-error)
+            (sort-by-error
+              (concat
+                (repeatedly (* (:percent-cloned hyperparameters)
+                               (:population-size hyperparameters))
+                            #(select population 7))
+                (repeatedly (* (:percent-crossover hyperparameters)
+                               (:population-size hyperparameters))
+                            #(mutate2 (crossover2 (get-parents population))
+                                      (rand-int 3)))))))))))
+;; @@
