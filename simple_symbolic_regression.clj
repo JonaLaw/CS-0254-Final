@@ -17,8 +17,7 @@
 
 ;; **
 ;;; This code defines and runs a genetic programming system on the problem
-;;; of finding a function that fits a particular set of [x y] pairs.
-;;;
+;;; of finding a function that fits a particular set of [x y] pairs.  
 ;;; The evolve function will try to find the function for the data-set labled target-data.
 ;; **
 
@@ -532,13 +531,13 @@
 ;;; Run one of the one of the commands below, e.g. (evolve number_of_generations).
 ;;; 
 ;;; Original teacher function with minor mods:  
-;;; (evolve #) 
+;;; (evolve #)  
 ;;; Final with attempted novelty search implementation:  
-;;; (evolve2 #)
+;;; (evolve2 #)  
 ;;; Midterm with modified mutation and crossover functions:  
-;;; (evolve3 #)
+;;; (evolve3 #)  
 ;;; Midterm and Final combined:  
-;;; (evolve4 #)
+;;; (evolve4 #)  
 ;;; 
 ;;; ### Output Example:
 ;; **
