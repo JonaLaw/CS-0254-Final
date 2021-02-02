@@ -11,6 +11,9 @@
             [clojure.zip :as zip]
             ))
 ;; @@
+;; =>
+;;; {"type":"html","content":"<span class='clj-nil'>nil</span>","value":"nil"}
+;; <=
 
 ;; **
 ;;; This code defines and runs a genetic programming system on the problem
@@ -573,3 +576,6 @@
 ;;; Simple : (* x (- x -4.25))
 ;;; 
 ;; <-
+;; =>
+;;; {"type":"html","content":"<span class='clj-nil'>nil</span>","value":"nil"}
+;; <=
