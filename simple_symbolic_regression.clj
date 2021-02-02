@@ -526,3 +526,54 @@
                             #(mutate2 (crossover2 (get-parents population))
                                       (rand-int 3)))))))))))
 ;; @@
+
+;; **
+;;; ### Instructions to run:
+;;; The evolve function will try to find the function for the data-set labled target-data.
+;;; Run one of the one of the commands below, e.g. (evolve number_of_generations).
+;;; 
+;;; Original teacher function with minor mods:
+;;; (evolve #)
+;;; Final with attempted novelty search implementation:
+;;; (evolve2 #)
+;;; Midterm with modified mutation and crossover functions:
+;;; (evolve3 #)
+;;; Midterm and Final combined:
+;;; (evolve4 #)
+;;; 
+;;; ### Output Example:
+;; **
+
+;; @@
+(evolve4 3)
+;; @@
+;; ->
+;;; Starting evolution...
+;;; ======================
+;;; Generation: 0
+;;; Best error: 171.19868803024292
+;;; Best program: (* x (+ x (sin x)))
+;;;      Median error: 322.0
+;;;      Average program size: 2.9825
+;;; ======================
+;;; Generation: 1
+;;; Best error: 171.19868803024292
+;;; Best program: (* x (+ x (sin x)))
+;;;      Median error: 315.33062732219696
+;;;      Average program size: 3.1125
+;;; ======================
+;;; Generation: 2
+;;; Best error: 145.17030930519104
+;;; Best program: (+ (* (+ (cos 0.42) x) x) (sin 3.88))
+;;;      Median error: 300.400000333786
+;;;      Average program size: 3.38
+;;; ======================
+;;; Generation: 3
+;;; Best error: 40.0
+;;; Best program: (* x (- x -4.25))
+;;;      Median error: 300.0
+;;;      Average program size: 5.3
+;;; Success: (* x (- x -4.25))
+;;; Simple : (* x (- x -4.25))
+;;; 
+;; <-
